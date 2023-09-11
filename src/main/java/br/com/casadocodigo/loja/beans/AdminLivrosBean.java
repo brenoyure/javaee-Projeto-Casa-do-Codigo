@@ -8,6 +8,8 @@ import br.com.casadocodigo.loja.daos.LivroDao;
 import br.com.casadocodigo.loja.models.Autor;
 import br.com.casadocodigo.loja.models.Livro;
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.transaction.Transactional;
@@ -24,6 +26,9 @@ public class AdminLivrosBean {
 
 	@Inject
 	private AutorDao autorDao;
+	
+	@Inject
+	private FacesContext context;
 
 	public List<Integer> getAutoresId() {
 		return autoresId;
@@ -34,14 +39,17 @@ public class AdminLivrosBean {
 	}
 
 	@Transactional
-	public void salvar() {
+	public String salvar() {
 		for(Integer autorId: autoresId) {
 			livro.getAutores().add(new Autor(autorId));
 		}
 		dao.salvar(livro);
-		System.out.println("Livro cadastrado: " + livro);
-		this.livro = new Livro();
-		this.autoresId = new ArrayList<>();
+		context
+			.getExternalContext()
+			.getFlash()
+			.setKeepMessages(true);
+		context.addMessage(null, new FacesMessage("Livro " + livro.getTitulo() + " cadastrado com sucesso."));
+		return "/livros/lista?faces-redirect=true";
 	}
 
 	public List<Autor> getAutores() {

@@ -10,6 +10,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Livro {
@@ -18,16 +23,23 @@ public class Livro {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
+	@NotBlank
 	private String titulo;
 
 	@Lob
+	@Size(min=10)
+	@NotBlank
 	private String descricao;
 
+	@DecimalMin("20")
 	private BigDecimal preco;
 
+	@Min(50)
 	private Integer numeroPaginas;
 
 	@ManyToMany
+	@Size(min=1)
+	@NotNull
 	private List<Autor> autores = new ArrayList<>();
 
 	public Livro() {
