@@ -9,32 +9,42 @@
 <h:messages />
 
 	<h:dataTable value="#{adminListaLivrosBean.livros}" var="livro">
-		<h:column>
-			<f:facet name="header">Título</f:facet>
-				#{livro.titulo}
-		</h:column>
+		<div>
+			<h:column>
+				<f:facet name="header">Título</f:facet>
+					#{livro.titulo}
+			</h:column>
+		</div>
 
-		<h:column>
-			<f:facet name="header">Descrição</f:facet>
-				#{livro.descricao}
-		</h:column>
+		<div>
+			<h:column>
+				<f:facet name="header">Descrição</f:facet>
+					#{livro.descricao}
+			</h:column>
+		</div>
 
-		<h:column>
-			<f:facet name="header">Preço</f:facet>
-				R$#{livro.preco}
-		</h:column>
+		<div>
+			<h:column>
+				<f:facet name="header">Preço</f:facet>
+					R$#{livro.preco}
+			</h:column>
+		</div>
 
-		<h:column>
-			<f:facet name="header">Número de Páginas</f:facet>
-				#{livro.numeroPaginas}
-		</h:column>
+		<div>
+			<h:column>
+				<f:facet name="header">Número de Páginas</f:facet>
+					#{livro.numeroPaginas}
+			</h:column>
+		</div>
 
-		<h:column>
-			<f:facet name="header">Autores</f:facet>
-				<ui:repeat value="#{livro.autores}" var="autor" >
-					#{autor.nome}
-				</ui:repeat>
-		</h:column>
+		<div>
+			<h:column>
+				<f:facet name="header">Autores</f:facet>
+					<ui:repeat value="#{livro.autores}" var="autor" >
+						#{autor.nome}
+					</ui:repeat>
+			</h:column>
+		</div>
 
 	</h:dataTable>
 
