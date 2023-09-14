@@ -1,6 +1,5 @@
 package br.com.casadocodigo.loja.beans;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import br.com.casadocodigo.loja.daos.AutorDao;
@@ -22,27 +21,14 @@ public class AdminLivrosBean {
 	@Inject
 	private LivroDao dao;
 
-	private List<Integer> autoresId = new ArrayList<>();
-
 	@Inject
 	private AutorDao autorDao;
 	
 	@Inject
 	private FacesContext context;
 
-	public List<Integer> getAutoresId() {
-		return autoresId;
-	}
-
-	public void setAutoresId(List<Integer> autoresId) {
-		this.autoresId = autoresId;
-	}
-
 	@Transactional
 	public String salvar() {
-		for(Integer autorId: autoresId) {
-			livro.getAutores().add(new Autor(autorId));
-		}
 		dao.salvar(livro);
 		context
 			.getExternalContext()
