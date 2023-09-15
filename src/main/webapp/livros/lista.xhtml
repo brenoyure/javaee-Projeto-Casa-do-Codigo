@@ -8,7 +8,8 @@
 
 <h:messages />
 
-	<h:dataTable value="#{adminListaLivrosBean.livros}" var="livro">
+	<h:outputLabel value="Nenhum Livro Cadastrado" rendered="#{empty adminListaLivrosBean.livros}" />
+	<h:dataTable value="#{adminListaLivrosBean.livros}" var="livro" rendered="#{not empty adminListaLivrosBean.livros}" >
 		<div>
 			<h:column>
 				<f:facet name="header">Título</f:facet>
@@ -43,6 +44,13 @@
 					<ui:repeat value="#{livro.autores}" var="autor" >
 						#{autor.nome}
 					</ui:repeat>
+			</h:column>
+		</div>
+
+		<div>
+			<h:column>
+				<f:facet name="header">Capa Path</f:facet>
+				<img src="#{request.contextPath}/file/#{livro.capaPath}" alt="#{livro.titulo}" height="30%" width="30%" />
 			</h:column>
 		</div>
 

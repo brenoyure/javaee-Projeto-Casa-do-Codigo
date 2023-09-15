@@ -46,6 +46,8 @@ public class Livro {
 	@Temporal(TemporalType.DATE)
 	private Calendar dataPublicacao = Calendar.getInstance();
 
+	private String capaPath;	
+
 	@ManyToMany
 	@Size(min=1)
 	@NotNull
@@ -95,6 +97,14 @@ public class Livro {
 		this.dataPublicacao = dataPublicacao;
 	}
 
+	public String getCapaPath() {
+		return this.capaPath;
+	}
+
+	public void setCapaPath(String capaPath) {
+		this.capaPath = capaPath;
+	}	
+
 	public List<Autor> getAutores() {
 		return autores;
 	}
@@ -119,7 +129,7 @@ public class Livro {
 		Livro other = (Livro) obj;
 		return Objects.equals(id, other.id);
 	}
-
+	
 	@Override
 	public String toString() {
 		return "Livro [id=" + id + ", titulo=" + titulo + ", descricao=" + descricao + ", preco=" + preco
