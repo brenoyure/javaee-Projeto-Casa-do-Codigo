@@ -22,4 +22,11 @@ public class LivroDao {
 				.getResultList();
 	}
 
+	public List<Livro> listarUltimosLancamentos() {
+		return manager
+				 .createQuery("SELECT l FROM Livro l ORDER BY l.id DESC", Livro.class)
+				 .setMaxResults(5)
+				 .getResultList();
+	}
+
 }
