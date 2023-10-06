@@ -8,17 +8,34 @@
 
 <h:head>
 	<h:outputStylesheet library="css" name="bootstrap.min.css" />
+	<h:outputStylesheet library="css" name="style-admin.css" />
 </h:head>
 
 <h:body>
 
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Casa do Código</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Lista</a></li>
+            <li><h:link value="Cadastro" outcome="form" /></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
 <h:panelGroup layout="block" styleClass="container" >
+
+<h1>Lista de Livros</h1>
 
 <h:messages />
 
 	<h:outputLabel value="Nenhum Livro Cadastrado" rendered="#{empty adminListaLivrosBean.livros}" />
 	<h:dataTable value="#{adminListaLivrosBean.livros}" var="livro" 
-				styleClass="table table-bordered table-striped" >
+				styleClass="table table-bordered table-striped table-hover" >
 		<div>
 			<h:column>
 				<f:facet name="header">Título</f:facet>
