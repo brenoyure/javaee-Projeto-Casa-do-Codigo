@@ -27,10 +27,17 @@ public class CarrinhoCompras implements Serializable {
 		return new ArrayList<>(itens);
 	}
 
+	public BigDecimal getTotal(CarrinhoItem item) {
+		return item.getLivro().getPreco().multiply(valueOf(item.getQuantidade()));
+	}
+
 	public BigDecimal getTotal() {
 		BigDecimal total = BigDecimal.ZERO;
-		itens.forEach(item -> 
-			total.add(item.getLivro().getPreco().multiply(valueOf(item.getQuantidade()))));
+
+		for (CarrinhoItem item : itens) {
+			total = total.add(item.getLivro().getPreco().multiply(valueOf(item.getQuantidade())));
+		}
+
 		return total;
 	}
 
