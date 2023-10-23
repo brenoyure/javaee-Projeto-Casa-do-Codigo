@@ -1,5 +1,7 @@
 package br.com.casadocodigo.loja.infra;
 
+import static java.io.File.separator;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,12 +16,12 @@ import jakarta.servlet.http.Part;
 
 public class FileSaver {
 
-	public static final String SERVER_PATH = "/home/breno/casadocodigo";
+	public static final String SERVER_PATH = System.getProperty("user.home") + separator + "casadocodigo";
 
 	public String write(Part arquivo, String path) {
 		try {
-			String relativePath = path + "/" + arquivo.getSubmittedFileName();
-			arquivo.write(SERVER_PATH + "/" + relativePath);
+			String relativePath = path + separator + arquivo.getSubmittedFileName();
+			arquivo.write(SERVER_PATH + separator + relativePath);
 			return relativePath;
 		} catch (IOException e) {
 			throw new RuntimeException(e);

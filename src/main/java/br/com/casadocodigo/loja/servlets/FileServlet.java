@@ -1,5 +1,6 @@
 package br.com.casadocodigo.loja.servlets;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.FileNameMap;
 import java.net.URLConnection;
@@ -24,7 +25,7 @@ public class FileServlet extends HttpServlet {
 		String[] requestURI = request.getRequestURI().split("/file");
 		String relativePath = requestURI[1];
 
-		Path source = Paths.get(FileSaver.SERVER_PATH + "/" + relativePath);
+		Path source = Paths.get(FileSaver.SERVER_PATH + File.separator + relativePath);
 
 		FileNameMap fileNameMap = URLConnection.getFileNameMap();
 		String contentType = fileNameMap.getContentTypeFor("file:" + source);
