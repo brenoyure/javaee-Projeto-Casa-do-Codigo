@@ -41,4 +41,9 @@ public class CarrinhoCompras implements Serializable {
 		return total;
 	}
 
+	public void remover(CarrinhoItem carrinhoItem) {
+		this.itens.remove(carrinhoItem);
+
+	}
+
 }

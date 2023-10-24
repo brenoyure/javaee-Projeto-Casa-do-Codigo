@@ -259,8 +259,8 @@
 	<main>
 		<section class="infoSection container">
 	<h2 class="infoSection-titulo">Seu carrinho</h2>
-	
-	<form class="formularioDoCarrinho" action="https://www.casadocodigo.com.br/cart" method="post">
+
+	<form class="formularioDoCarrinho" jsf:id="formCarrinho" method="post">
 		<table class="formularioDoCarrinho-tabela">
 		<thead class="formularioDoCarrinho-cabecalho">
 			<tr>
@@ -273,7 +273,7 @@
 			</tr>
 		</thead>
 <tbody>
-	<ui:repeat value="#{carrinhoCompras.itens}" var="carrinhoItem" >
+	<ui:repeat value="#{carrinhoCompras.itens}" var="carrinhoItem" varStatus="loop">
 		<tr>
 			<td class="formularioDoCarrinho-item">
 				<a href="#{request.contextPath}/livro-detalhe.xhtml?id=#{carrinhoItem.livro.id}">
@@ -286,18 +286,16 @@
 			</td>
 			<td class="formularioDoCarrinho-item formularioDoCarrinho-item-preco">R$ #{carrinhoItem.livro.preco}</td>
 			<td class="formularioDoCarrinho-item">
-				<input class="formularioDoCarrinho-item-quantidade"
-					   type="number"
-					   min="0"
-					   value="#{carrinhoItem.quantidade}" />
+				<input class="formularioDoCarrinho-item-quantidade" type="number" min="1"
+					   jsf:value="#{carrinhoCompras.itens[loop.index].quantidade}" />
 			</td>
 			<td class="formularioDoCarrinho-item formularioDoCarrinho-item-precoTotal" 
 				title="Preço unitário: #{carrinhoItem.livro.preco}">R$#{carrinhoCompras.getTotal(carrinhoItem)}</td>
 			<td class="formularioDoCarrinho-item">
-				<a href="https://www.casadocodigo.com.br/cart/change?id=18404155847&amp;quantity=0;">
+				<h:commandLink action="#{carrinhoComprasBean.remover(carrinhoItem)}"  >
 					<img class="formularioDoCarrinho-item-remover-imagem"  
 						src="#{request.contextPath}/resources/imagens/trash.png" alt="X" title="Remover" />
-				</a>
+				</h:commandLink>
 			</td>
 		</tr>
 	</ui:repeat>
@@ -308,7 +306,7 @@
 					<button class="formularioDoCarrinho-finalizar-botao" type="submit" name="checkout">Finalizar<span class="formularioDoCarrinho-finalizar-botao-texto" role="presentation"> compra</span></button>
 				</td>
 				<td class="formularioDoCarrinho-rodape-item">
-					<button class="formularioDoCarrinho-atualizar" type="submit" name="update">Atualizar</button>
+					<button class="formularioDoCarrinho-atualizar" type="submit" jsf:id="btnAtualizar">Atualizar</button>
 				</td>
 				<td class="formularioDoCarrinho-rodape-item">
 					R$#{carrinhoCompras.getTotal()}
