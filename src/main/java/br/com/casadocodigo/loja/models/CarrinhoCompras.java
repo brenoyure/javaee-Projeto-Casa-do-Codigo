@@ -9,13 +9,20 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import br.com.casadocodigo.loja.daos.CompraDao;
 import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import jakarta.json.Json;
+import jakarta.json.JsonArrayBuilder;
 
 @Named @SessionScoped
 public class CarrinhoCompras implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+
+	@Inject
+	private CompraDao compraDao;
 
 	private Set<CarrinhoItem> itens = new HashSet<>();
 
@@ -43,7 +50,28 @@ public class CarrinhoCompras implements Serializable {
 
 	public void remover(CarrinhoItem carrinhoItem) {
 		this.itens.remove(carrinhoItem);
+	}
+
+	public void finalizar(Usuario usuario) {
+		Compra compra = new Compra();
+		compra.setUsuario(usuario);
+		compra.setItens(toJson());
+		compraDao.salvar(compra);
+	}
+
+	public String toJson() {
+		JsonArrayBuilder builder = Json.createArrayBuilder();
+		itens.forEach(item -> {
+			builder.add(Json.createObjectBuilder()
+				.add("titulo",item.getLivro().getTitulo())
+				.add("preco", item.getLivro().getPreco())
+				.add("quantidade", item.getQuantidade())
+				.add("total", item.getLivro().getPreco().multiply(new BigDecimal(item.getQuantidade().intValue()))));
+		});
+
+		return builder.build().toString();
 
 	}
+
 
 }
