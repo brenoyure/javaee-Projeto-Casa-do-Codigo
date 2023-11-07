@@ -1,0 +1,10 @@
+embed-server --server-config=standalone-full.xml
+
+module add --name=com.mysql --dependencies=javax.api,jakarta.transaction.api --resources=/opt/jboss/wildfly/modules/mysql/mysql-connector-j-8.0.33.jar
+
+/subsystem=datasources/jdbc-driver=mysql:add(driver-module-name=com.mysql,driver-xa-datasource-class-name=com.mysql.cj.jdbc.MysqlXADataSource)
+
+data-source add --name=casadocodigoDS --driver-name=mysql --connection-url=jdbc:mysql://${env.MYSQL_DATABASE_HOST}:3306/${env.MYSQL_DATABASE} --jndi-name=java:jboss/datasources/casadocodigoDS --user-name=${env.MYSQL_USER} --password=${env.MYSQL_PASSWORD} --enabled=true
+
+stop-embedded-server
+
