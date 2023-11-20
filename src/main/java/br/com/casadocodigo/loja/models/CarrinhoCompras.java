@@ -15,11 +15,6 @@ import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.json.Json;
 import jakarta.json.JsonArrayBuilder;
-import jakarta.ws.rs.client.Client;
-import jakarta.ws.rs.client.ClientBuilder;
-import jakarta.ws.rs.client.Entity;
-import jakarta.ws.rs.client.Invocation.Builder;
-import jakarta.ws.rs.client.WebTarget;
 
 @Named @SessionScoped
 public class CarrinhoCompras implements Serializable {
@@ -57,23 +52,12 @@ public class CarrinhoCompras implements Serializable {
 		this.itens.remove(carrinhoItem);
 	}
 
-	public void finalizar(Usuario usuario) {
-		Compra compra = new Compra();
-		compra.setUsuario(usuario);
+	public void finalizar(Compra compra) {
 		compra.setItens(toJson());
 		compraDao.salvar(compra);
 
-		Client client = ClientBuilder.newClient();
-		Pagamento pagamento = new Pagamento(getTotal());
-		String target = "http://localhost:8080/payment/payment";
-		
-		Entity<Pagamento> json = Entity.json(pagamento);
-		WebTarget webTarget = client.target(target);
-		Builder requestBuilder = webTarget.request();
-		String response = requestBuilder.post(json, String.class);
-
-		System.out.println(response);
-
+//		String response = pagamentoGateway.pagar(getTotal()).readEntity(Pagamento.class).getValue().toString();
+//		System.out.println(response);
 	}
 
 	public String toJson() {

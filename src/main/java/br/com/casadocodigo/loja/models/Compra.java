@@ -1,6 +1,7 @@
 package br.com.casadocodigo.loja.models;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
+import static java.util.UUID.randomUUID;
 
 import java.util.Objects;
 
@@ -10,6 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
 
 @Entity
 public class Compra {
@@ -27,6 +29,13 @@ public class Compra {
 	 */
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	private Usuario usuario;
+
+	private String uuid;
+
+	@PrePersist
+	public void createUuid() {
+		this.uuid = randomUUID().toString();
+	}
 
 	public Integer getId() {
 		return id;
@@ -55,6 +64,14 @@ public class Compra {
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
+	}
+
+	public String getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
 	}
 
 	@Override
