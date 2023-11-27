@@ -2,12 +2,14 @@ package br.com.casadocodigo.loja.models;
 
 import java.util.Objects;
 
+import jakarta.persistence.Cacheable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
+@Cacheable
 public class Autor {
 
 	@Id

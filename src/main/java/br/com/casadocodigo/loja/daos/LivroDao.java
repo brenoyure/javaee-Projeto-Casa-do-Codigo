@@ -1,5 +1,7 @@
 package br.com.casadocodigo.loja.daos;
 
+import static org.hibernate.jpa.HibernateHints.HINT_CACHEABLE;
+
 import java.util.List;
 
 import br.com.casadocodigo.loja.models.Livro;
@@ -38,6 +40,7 @@ public class LivroDao {
 		return entityManager
 				 .createQuery("SELECT l FROM Livro l ORDER BY l.id DESC", Livro.class)
 				 .setMaxResults(5)
+				 .setHint(HINT_CACHEABLE, true)
 				 .getResultList();
 	}
 
@@ -45,6 +48,7 @@ public class LivroDao {
 		return entityManager
 				 .createQuery("SELECT l FROM Livro l ORDER BY l.id DESC", Livro.class)
 				 .setFirstResult(5)
+				 .setHint(HINT_CACHEABLE, true)
 				 .getResultList();
 	}
 

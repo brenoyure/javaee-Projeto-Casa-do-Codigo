@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 
+import jakarta.persistence.Cacheable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,6 +22,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Entity
+@Cacheable
 public class Livro {
 
 	@Id
