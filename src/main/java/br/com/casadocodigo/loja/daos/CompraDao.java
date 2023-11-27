@@ -17,4 +17,11 @@ public class CompraDao implements Serializable {
 		entityManager.persist(compra);
 	}
 
+	public Compra buscaPorUuid(String uuid) {
+		return entityManager
+					.createQuery("SELECT c FROM Compra c WHERE c.uuid = ?1", Compra.class)
+					.setParameter(1, uuid)
+					.getSingleResult();
+	}
+
 }

@@ -3,6 +3,7 @@ package br.com.casadocodigo.loja.models;
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static java.util.UUID.randomUUID;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 import jakarta.persistence.CascadeType;
@@ -31,6 +32,8 @@ public class Compra {
 	private Usuario usuario;
 
 	private String uuid;
+
+	private BigDecimal total;
 
 	@PrePersist
 	public void createUuid() {
@@ -72,6 +75,14 @@ public class Compra {
 
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
+	}
+
+	public BigDecimal getTotal() {
+		return total;
+	}
+
+	public void setTotal(BigDecimal total) {
+		this.total = total;
 	}
 
 	@Override

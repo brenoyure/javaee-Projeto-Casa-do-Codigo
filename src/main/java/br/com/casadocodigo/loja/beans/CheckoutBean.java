@@ -29,11 +29,11 @@ public class CheckoutBean {
 		compra.setUsuario(usuario);
 		carrinho.finalizar(compra);
 
-		String contextName = facesContext.getExternalContext().getContextName();
+		String contextName = facesContext.getExternalContext().getRequestContextPath();
 		HttpServletResponse response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
 
 		response.setStatus(TEMPORARY_REDIRECT.getStatusCode());
-		response.setHeader("Location", "/" + contextName + "/service/pagamento?uuid=" + compra.getUuid());
+		response.setHeader("Location", contextName + "/service/pagamento?uuid=" + compra.getUuid());
 	}
 
 	public Usuario getUsuario() {
