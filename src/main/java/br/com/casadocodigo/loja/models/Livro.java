@@ -20,9 +20,16 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlElementWrapper;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @Cacheable
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Livro {
 
 	@Id
@@ -53,6 +60,8 @@ public class Livro {
 	@ManyToMany
 	@Size(min=1)
 	@NotNull
+	@XmlElement(name="autor")
+	@XmlElementWrapper(name = "autores")
 	private List<Autor> autores = new ArrayList<>();
 
 	public Livro() {

@@ -7,6 +7,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import br.com.casadocodigo.loja.daos.CompraDao;
+import br.com.casadocodigo.loja.infra.MailSender;
 import br.com.casadocodigo.loja.models.Compra;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletContext;
@@ -32,6 +33,9 @@ public class PagamentoService {
 	@Context
 	private ServletContext servletContext;
 
+	@Inject
+	private MailSender mailSender;
+
 	private static ExecutorService executor = Executors.newFixedThreadPool(50) ;
 
 	@POST
@@ -47,6 +51,7 @@ public class PagamentoService {
 					.queryParam("msg", "Compra Realizada com Sucesso").build();
 
 			Response response = Response.seeOther(responseUri).build();
+			mailSender.send("compras@casacodigo.com.br", compra.getUsuario().getEmail(), "Nova Compra na CDC", "Sua compra foi realizada com sucesso, com o número de pedido " + compra.getUuid());
 			ar.resume(response);
 
 		});
