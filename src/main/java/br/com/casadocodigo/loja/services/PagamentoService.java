@@ -38,9 +38,6 @@ public class PagamentoService {
 	private ServletContext servletContext;
 
 	@Inject
-	private MailSender mailSender;
-
-	@Inject
 	private JMSContext jmsContext;
 
 	@Resource(name = "java:/jms/topics/CarrinhoComprasTopico")
