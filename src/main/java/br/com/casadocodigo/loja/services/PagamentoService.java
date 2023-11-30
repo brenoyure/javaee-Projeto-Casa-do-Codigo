@@ -9,7 +9,11 @@ import java.util.concurrent.Executors;
 import br.com.casadocodigo.loja.daos.CompraDao;
 import br.com.casadocodigo.loja.infra.MailSender;
 import br.com.casadocodigo.loja.models.Compra;
+import jakarta.annotation.Resource;
 import jakarta.inject.Inject;
+import jakarta.jms.Destination;
+import jakarta.jms.JMSContext;
+import jakarta.jms.JMSProducer;
 import jakarta.servlet.ServletContext;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
@@ -36,22 +40,32 @@ public class PagamentoService {
 	@Inject
 	private MailSender mailSender;
 
+	@Inject
+	private JMSContext jmsContext;
+
+	@Resource(name = "java:/jms/topics/CarrinhoComprasTopico")
+	private Destination destination;
+
 	private static ExecutorService executor = Executors.newFixedThreadPool(50) ;
 
 	@POST
 	@Produces(APPLICATION_JSON)
 	public void pagar(@Suspended final AsyncResponse ar, @QueryParam("uuid") String uuid) {
 		Compra compra = compraDao.buscaPorUuid(uuid);
+		String contextPath = servletContext.getContextPath();
+
+		JMSProducer jmsProducer = jmsContext.createProducer();
 
 		executor.submit(() -> {
 			pagamentoGateway.pagar(compra.getTotal());
 
+			jmsProducer.send(destination, compra.getUuid());
+
 			URI responseUri = UriBuilder
-					.fromPath("http://localhost:8080" + servletContext.getContextPath() + "/index.xhtml")
+					.fromPath("http://localhost:8080" + contextPath + "/index.xhtml")
 					.queryParam("msg", "Compra Realizada com Sucesso").build();
 
 			Response response = Response.seeOther(responseUri).build();
-			mailSender.send("compras@casacodigo.com.br", compra.getUsuario().getEmail(), "Nova Compra na CDC", "Sua compra foi realizada com sucesso, com o número de pedido " + compra.getUuid());
 			ar.resume(response);
 
 		});
